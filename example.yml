@@ -11,7 +11,7 @@ database:
   password:
 
   # the JDBC URL
-  url: jdbc:h2:~/db/flyway-test.db
+  url: jdbc:h2:~/db/appirio-flyway-test.db
 
 # use the simple server factory if you only want to run on a single port
 #server:
@@ -31,12 +31,12 @@ server:
       keyStorePath: example.keystore
       keyStorePassword: example
       validateCerts: false
-# this requires the alpn-boot library on the JVM's boot classpath
-#    - type: spdy3
-#      port: 8445
-#      keyStorePath: example.keystore
-#      keyStorePassword: example
-#      validateCerts: false
+  this requires the alpn-boot library on the JVM's boot classpath
+     - type: spdy3
+       port: 8445
+       keyStorePath: example.keystore
+       keyStorePassword: example
+       validateCerts: false
   adminConnectors:
     - type: http
       port: 8081
@@ -56,19 +56,24 @@ logging:
   loggers:
 
     # Sets the level for 'com.example.app' to DEBUG.
-    com.example.app: DEBUG
+    com.example.app: INFO
 
     org.hibernate.SQL: ALL
+    net.kencochrane.raven: OFF
+    org.jooq.Constants: OFF
 
   appenders:
     - type: console
-    - type: file
-      threshold: DEBUG
-      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
-      currentLogFilename: /tmp/application.log
-      archivedLogFilenamePattern: /tmp/application-%d{yyyy-MM-dd}.log
-      archivedFileCount: 7
-      timeZone: UTC
+#    - type: file
+#      threshold: DEBUG
+#      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+#      currentLogFilename: /tmp/org.drew.service.health.log
+#      archivedLogFilenamePattern: /tmp/org.drew.service.health-%d{yyyy-MM-dd}.log
+#      archivedFileCount: 7
+#      timeZone: UTC
+#    - type: raven
+#      dsn: https://90d5b01f067b4b9b94f65bd0ecafd8eb:04362be665824f75abe5b2fc39eddfc1@app.getsentry.com/42917
+#      tags: tag:value,tag2:value
 
 # JOOQ Database ORM/Framework settings.
 jooq:
@@ -96,3 +101,13 @@ jooq:
   attachRecords: yes
   # Whether primary-key fields should be updatable.  (default: no)
   updatablePrimaryKeys: no
+
+
+allowedGrantTypes:
+  - password
+
+bearerRealm: oauth2-provider
+
+# Swagger documentation configuration
+swagger:
+  resourcePackage: org.drew.service.resources

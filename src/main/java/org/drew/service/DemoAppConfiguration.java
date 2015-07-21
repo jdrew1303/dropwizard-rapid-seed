@@ -1,10 +1,14 @@
-package org.drew.demo;
+package org.drew.service;
 
+import com.bendb.dropwizard.jooq.JooqFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableList;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -25,4 +29,16 @@ public class DemoAppConfiguration extends Configuration{
     @NotNull
     @JsonProperty("jooq")
     private JooqFactory jooqFactory = new JooqFactory();
+
+    @JsonProperty("swagger")
+    public SwaggerBundleConfiguration swaggerBundleConfiguration;
+
+    @Valid
+    @JsonProperty
+    private ImmutableList<String> allowedGrantTypes;
+
+    @Valid
+    @JsonProperty
+    @NotEmpty
+    private String bearerRealm;
 }
