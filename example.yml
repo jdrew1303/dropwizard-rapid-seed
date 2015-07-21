@@ -31,12 +31,12 @@ server:
       keyStorePath: example.keystore
       keyStorePassword: example
       validateCerts: false
-  this requires the alpn-boot library on the JVM's boot classpath
-     - type: spdy3
-       port: 8445
-       keyStorePath: example.keystore
-       keyStorePassword: example
-       validateCerts: false
+  #this requires the alpn-boot library on the JVM's boot classpath
+  #   - type: spdy3
+  #     port: 8445
+  #     keyStorePath: example.keystore
+  #     keyStorePassword: example
+  #     validateCerts: false
   adminConnectors:
     - type: http
       port: 8081
@@ -80,7 +80,7 @@ jooq:
   # The flavor of SQL to generate. If not specified, it will be inferred from the JDBC connection URL.  (default: null)
 #  dialect: POSTGRES
   # Whether to write generated SQL to a logger before execution.  (default: no)
-  logExecutedSql: no
+  logExecutedSql: yes
   # Whether to include schema names in generated SQL.  (default: yes)
   renderSchema: yes
   # How names should be rendered in generated SQL.  One of QUOTED, AS_IS, LOWER, or UPPER.  (default: QUOTED)
@@ -88,7 +88,7 @@ jooq:
   # How keywords should be rendered in generated SQL.  One of LOWER, UPPER.  (default: UPPER)
   renderKeywordStyle: LOWER
   # Whether generated SQL should be pretty-printed.  (default: no)
-  renderFormatted: no
+  renderFormatted: yes
   # How parameters should be represented.  One of INDEXED, NAMED, or INLINE.  (default: INDEXED)
   paramType: INDEXED
   # How statements should be generated; one of PREPARED_STATEMENT or STATIC_STATEMENT.  (default: PREPARED_STATEMENT)
@@ -107,7 +107,3 @@ allowedGrantTypes:
   - password
 
 bearerRealm: oauth2-provider
-
-# Swagger documentation configuration
-swagger:
-  resourcePackage: org.drew.service.resources

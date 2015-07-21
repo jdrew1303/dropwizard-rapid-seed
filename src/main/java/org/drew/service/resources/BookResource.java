@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.reinert.jjschema.JsonSchemaGenerator;
 import com.github.reinert.jjschema.SchemaGeneratorBuilder;
-import com.wordnik.swagger.annotations.Api;
 import org.jooq.DAO;
 import org.jooq.example.flyway.db.h2.flyway_test.tables.daos.BookDao;
 import org.jooq.example.flyway.db.h2.flyway_test.tables.pojos.Book;
@@ -20,7 +19,6 @@ import java.util.List;
  * Created by jamesdrew on 29/04/2015.
  */
 
-@Api
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {

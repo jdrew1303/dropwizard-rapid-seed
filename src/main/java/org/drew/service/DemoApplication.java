@@ -16,8 +16,6 @@ import io.dropwizard.lifecycle.ServerLifecycleListener;
 import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.federecio.dropwizard.swagger.SwaggerBundle;
-import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.drew.service.auth.AuthModule;
 import org.drew.service.health.BuildInfoModule;
@@ -49,7 +47,6 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
     // BUNDLES
     private JooqBundle<DemoAppConfiguration> jooqBundle;
     private GuiceBundle<DemoAppConfiguration> guiceBundle;
-    private SwaggerBundle<DemoAppConfiguration> swaggerBundle;
 
     /**
      * Handle the startup of the dropwizard org.drew.service.application. The only issue
@@ -106,17 +103,9 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
                         .enableAutoConfig(getClass().getPackage().getName())
                         .build();
 
-        swaggerBundle = new SwaggerBundle<DemoAppConfiguration>() {
-            @Override
-            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DemoAppConfiguration configuration) {
-                return configuration.swaggerBundleConfiguration;
-            }
-        };
-
         // LOAD BUNDLES
         bootstrap.addBundle(jooqBundle);
         bootstrap.addBundle(guiceBundle);
-        bootstrap.addBundle(swaggerBundle);
     }
 
     /**

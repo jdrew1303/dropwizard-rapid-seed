@@ -14,7 +14,7 @@ import static javax.ws.rs.core.Response.status;
 /**
  * @author Bo Gotthardt
  */
-//@Path("/metrics")
+@Path("/metrics")
 public class MetricsResource {
     private final MetricRegistry metrics;
 
