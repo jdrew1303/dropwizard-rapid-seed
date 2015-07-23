@@ -199,6 +199,13 @@
                 <scope>compile</scope>
             </dependency>
 
+            <!-- FLYWEIGHT DATABASE MIGRATIONS -->
+            <dependency>
+                <groupId>io.dropwizard.modules</groupId>
+                <artifactId>dropwizard-flyway</artifactId>
+                <version>0.8.0-2</version>
+            </dependency>
+
             <!-- ============== TESTING ============== -->
             <dependency>
                 <groupId>io.dropwizard</groupId>

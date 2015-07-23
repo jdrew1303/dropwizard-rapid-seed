@@ -11,6 +11,8 @@ import com.tradier.raven.logging.RavenBootstrap;
 import com.tradier.raven.logging.UncaughtExceptionHandlers;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.flyway.FlywayBundle;
+import io.dropwizard.flyway.FlywayFactory;
 import io.dropwizard.jetty.setup.ServletEnvironment;
 import io.dropwizard.lifecycle.ServerLifecycleListener;
 import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
@@ -114,6 +116,18 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DemoAppConfiguration configuration) {
                 return configuration.swaggerBundleConfiguration;
+            }
+        };
+
+        FlywayBundle<DemoAppConfiguration> flywayBundle = new FlywayBundle<DemoAppConfiguration>() {
+            @Override
+            public DataSourceFactory getDataSourceFactory(DemoAppConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+
+            @Override
+            public FlywayFactory getFlywayFactory(DemoAppConfiguration configuration) {
+                return configuration.getFlywayFactory();
             }
         };
 

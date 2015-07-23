@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.flyway.FlywayFactory;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +31,15 @@ public class DemoAppConfiguration extends Configuration{
     @JsonProperty("jooq")
     private JooqFactory jooqFactory = new JooqFactory();
 
+    @Valid
+    @NotNull
     @JsonProperty("swagger")
     public SwaggerBundleConfiguration swaggerBundleConfiguration = new SwaggerBundleConfiguration();
+
+    @Valid
+    @NotNull
+    @JsonProperty("flyway")
+    public FlywayFactory flywayFactory = new FlywayFactory();
 
     @Valid
     @JsonProperty
