@@ -2,6 +2,9 @@ package org.drew.service.resources;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import com.github.reinert.jjschema.JsonSchemaGenerator;
 import com.github.reinert.jjschema.SchemaGeneratorBuilder;
 import com.wordnik.swagger.annotations.Api;
@@ -57,6 +60,17 @@ public class BookResource {
         // https://github.com/reinert/JJSchema
         JsonSchemaGenerator v4generator = SchemaGeneratorBuilder.draftV4Schema().setAutoPutSchemaVersion(true).build();
         return v4generator.generateSchema(Book.class);
+    }
+
+    @GET
+    @Path("/schema2")
+    @ApiOperation("get us the schema!!!")
+    public JsonSchema otherSchema() throws JsonMappingException {
+        ObjectMapper m = new ObjectMapper();
+        SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+        m.acceptJsonFormatVisitor(m.constructType(Book.class), visitor);
+        JsonSchema jsonSchema = visitor.finalSchema();
+        return jsonSchema;
     }
 
     @GET
