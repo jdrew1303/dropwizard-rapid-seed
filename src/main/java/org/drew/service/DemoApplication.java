@@ -133,10 +133,6 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
      */
     @Override
     public void run(DemoAppConfiguration demoAppConfiguration, Environment environment) throws Exception {
-
-        // Register Resources
-//        environment.jersey().register(new MetricsResource(environment.metrics()));
-
         // Register security component
 //        environment.jersey().register(new OAuthProvider<Long>(new SimpleAuthenticator(accessTokenDAO), demoAppConfiguration.getBearerRealm()));
 //        environment.jersey().register(new OAuth2Resource(demoAppConfiguration.getAllowedGrantTypes(), accessTokenDAO, userDAO));
