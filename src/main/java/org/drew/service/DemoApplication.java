@@ -23,14 +23,18 @@ import org.drew.service.auth.AuthModule;
 import org.drew.service.health.BuildInfoModule;
 import org.drew.service.metrics.MetricsResource;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.ext.ExceptionMapper;
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -140,6 +144,7 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
         // Remove all of Dropwizard's custom ExceptionMappers
         removeDefaultExceptionMappers(environment);
 
+        configureCors(environment);
         // STARTUP METRIC
         // Note: We handle this last to try to get as accurate a picture as possible of
         // the startup time. There may be other items in their own threads but this is
@@ -169,4 +174,15 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
                 .filter(isDropwizardExceptionMapper)
                 .map(singletons::remove);
     }
+
+    private void configureCors(Environment environment) {
+        FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
+        filter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+        filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
+        filter.setInitParameter("allowedHeaders", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+        filter.setInitParameter("allowCredentials", "true");
+    }
+
 }
