@@ -140,6 +140,9 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
         // Remove all of Dropwizard's custom ExceptionMappers
         removeDefaultExceptionMappers(environment);
 
+        // REGISTER KILL SWITCH
+        new KillServer(environment.lifecycle(), environment.servlets()).addKillPathToApplication("/path");
+
         configureCors(environment);
         // STARTUP METRIC
         // Note: We handle this last to try to get as accurate a picture as possible of
