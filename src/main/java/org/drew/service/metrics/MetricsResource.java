@@ -38,6 +38,7 @@ public class MetricsResource {
 
     @POST
     @Path("/meter/{name}")
+    @ApiOperation("update a meter")
     public Response meter(@PathParam("name") String name, @QueryParam("value") Optional<Long> value) {
         metrics.meter(name).mark(value.or(1L));
         return status(NO_CONTENT).build();
@@ -45,6 +46,7 @@ public class MetricsResource {
 
     @POST
     @Path("/timer/{name}")
+    @ApiOperation("update a timer")
     public Response timer(@PathParam("name") String name, @QueryParam("value") long value) {
         metrics.timer(name).update(value, TimeUnit.MILLISECONDS);
         return status(NO_CONTENT).build();
@@ -52,6 +54,7 @@ public class MetricsResource {
 
     @GET
     @Path("/meter/{name}")
+    @ApiOperation("mark a meter")
     public Response meterGif(@PathParam("name") String name, @QueryParam("value") Optional<Long> value) {
         metrics.meter(name).mark(value.or(1L));
         // Instead of returning a single pixel gif (as is standard practise) we return a 204 No Content
@@ -63,6 +66,7 @@ public class MetricsResource {
 
     @GET
     @Path("/timer")
+    @ApiOperation("mark a timer")
     public Response timerGif(@QueryParam("name") String name, @QueryParam("value") long value)  {
         metrics.timer(name).update(value, TimeUnit.MILLISECONDS);
         return status(NO_CONTENT).build();
