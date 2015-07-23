@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.reinert.jjschema.JsonSchemaGenerator;
 import com.github.reinert.jjschema.SchemaGeneratorBuilder;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.jooq.DAO;
 import org.jooq.example.flyway.db.h2.flyway_test.tables.daos.BookDao;
 import org.jooq.example.flyway.db.h2.flyway_test.tables.pojos.Book;
@@ -13,12 +15,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jamesdrew on 29/04/2015.
  */
-
+@Api
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
@@ -32,6 +35,7 @@ public class BookResource {
 
     @GET
     @Path("/schema")
+    @ApiOperation("get us the schema!!!")
     public JsonNode generateSchema() throws JsonMappingException {
 //        // ================ JACKSON JSON SCHEMA ================
 //        // Create our base mapper. Use this for your configuration. Not sure if we could
@@ -56,6 +60,7 @@ public class BookResource {
     }
 
     @GET
+    @ApiOperation(value="Booooooks! but no cook books", response = Book.class)
     public List<Book> getBook(){
         return dao.findAll();
     }

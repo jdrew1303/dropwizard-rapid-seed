@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,6 +29,9 @@ public class DemoAppConfiguration extends Configuration{
     @NotNull
     @JsonProperty("jooq")
     private JooqFactory jooqFactory = new JooqFactory();
+
+    @JsonProperty("swagger")
+    public SwaggerBundleConfiguration swaggerBundleConfiguration = new SwaggerBundleConfiguration();
 
     @Valid
     @JsonProperty

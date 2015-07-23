@@ -16,6 +16,8 @@ import io.dropwizard.lifecycle.ServerLifecycleListener;
 import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.drew.service.auth.AuthModule;
 import org.drew.service.health.BuildInfoModule;
@@ -47,6 +49,7 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
     // BUNDLES
     private JooqBundle<DemoAppConfiguration> jooqBundle;
     private GuiceBundle<DemoAppConfiguration> guiceBundle;
+    private SwaggerBundle<DemoAppConfiguration> swaggerBundle;
 
     /**
      * Handle the startup of the dropwizard org.drew.service.application. The only issue
@@ -96,16 +99,24 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
         };
 
         guiceBundle = GuiceBundle.<DemoAppConfiguration>newBuilder()
-                        .addModule(new DemoModule())
+                        .addModule(new DemoModule(jooqBundle))
                         .addModule(new BuildInfoModule())
                         .addModule(new AuthModule())
                         .setConfigClass(DemoAppConfiguration.class)
                         .enableAutoConfig(getClass().getPackage().getName())
                         .build();
 
+        swaggerBundle = new SwaggerBundle<DemoAppConfiguration>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DemoAppConfiguration configuration) {
+                return configuration.swaggerBundleConfiguration;
+            }
+        };
+
         // LOAD BUNDLES
         bootstrap.addBundle(jooqBundle);
         bootstrap.addBundle(guiceBundle);
+        bootstrap.addBundle(swaggerBundle);
     }
 
     /**
@@ -120,7 +131,7 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
     public void run(DemoAppConfiguration demoAppConfiguration, Environment environment) throws Exception {
 
         // Register Resources
-        environment.jersey().register(new MetricsResource(environment.metrics()));
+//        environment.jersey().register(new MetricsResource(environment.metrics()));
 
         // Register security component
 //        environment.jersey().register(new OAuthProvider<Long>(new SimpleAuthenticator(accessTokenDAO), demoAppConfiguration.getBearerRealm()));
@@ -158,51 +169,4 @@ public class DemoApplication extends Application<DemoAppConfiguration>{
                 .filter(isDropwizardExceptionMapper)
                 .map(singletons::remove);
     }
-
-    // Need to have a better place to store this :/ @__refactor
-    private Server mServer;
-    private void addKillPathToApplication(Environment environment){
-
-        LifecycleEnvironment lce = environment.lifecycle();
-
-        // Pick up Server instance, so I can shut him down
-        lce.addServerLifecycleListener(
-                new ServerLifecycleListener() {
-                    @Override
-                    public void serverStarted(Server server) {
-                        mServer = server;
-                    }
-                }
-        );
-        ServletEnvironment se = environment.servlets();
-        se.addServlet("Terminator", new ServerTerminator(mServer)).addMapping("path/to/ByeBye");
-    }
-
-
-    class ServerTerminator extends HttpServlet {
-        private Server server;
-
-        private ServerTerminator(Server server){
-            this.server = server;
-        }
-        @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            log.info("Terminator");
-            resp.setContentType("text/html");
-            resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            resp.getWriter().println();
-            // Must initiate shut-down in separate thread to not deadlock here
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        server.stop();
-                    } catch (Exception ex) {
-                        log.warn("Terminator failed", ex);
-                    }
-                }
-            }.start();
-        }
-    }
-
 }

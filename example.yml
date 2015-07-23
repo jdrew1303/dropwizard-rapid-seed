@@ -107,3 +107,11 @@ allowedGrantTypes:
   - password
 
 bearerRealm: oauth2-provider
+
+swagger:
+  resourcePackage: org.drew.service.resources
+  title : demo api
+  version : 1.0
+  description : this is a demo api for tcDropwizard
+  license : no idea yet
+  contact : James Drew <jdrew@appirio.com>

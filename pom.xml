@@ -125,6 +125,13 @@
                 <version>${dropwizard.version}</version>
             </dependency>
 
+            <!-- SWAGGER API-->
+            <dependency>
+                <groupId>io.federecio</groupId>
+                <artifactId>dropwizard-swagger</artifactId>
+                <version>0.7.0</version>
+            </dependency>
+
             <!-- Authentication support -->
             <dependency>
                 <groupId>io.dropwizard</groupId>
