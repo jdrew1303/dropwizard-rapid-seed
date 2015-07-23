@@ -2,6 +2,8 @@ package org.drew.service.metrics;
 
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Optional;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -12,8 +14,12 @@ import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 import static javax.ws.rs.core.Response.status;
 
 /**
- * @author Bo Gotthardt
+ * We use this to add metrics from the client application. In this case
+ * we assume that it will be from a browser based client. This should
+ * not however be used by any other type of client if they have their
+ * own logging/metrics mechanism.
  */
+@Api
 @Path("/metrics")
 public class MetricsResource {
     private final MetricRegistry metrics;
