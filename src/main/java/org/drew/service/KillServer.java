@@ -39,15 +39,11 @@ public class KillServer {
                 }
         );
 
-        this.servletEnvironment.addServlet("Terminator", new ServerTerminator(mServer)).addMapping(path);
+        this.servletEnvironment.addServlet("Terminator", new ServerTerminator()).addMapping(path);
     }
 
     private class ServerTerminator extends HttpServlet {
-        private Server server;
 
-        private ServerTerminator(Server server){
-            this.server = server;
-        }
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             log.info("Terminator");
@@ -59,7 +55,7 @@ public class KillServer {
                 @Override
                 public void run() {
                     try {
-                        server.stop();
+                        mServer.stop();
                     } catch (Exception ex) {
                         log.warn("Terminator failed", ex);
                     }
