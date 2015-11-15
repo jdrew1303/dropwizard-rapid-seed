@@ -3,14 +3,14 @@
 ![Logo](http://www.troll.me/images/battlefield-3-all-the-things/battlefield-3-all-the-things.png)
 
 <p align="center">
-  [![Version Tag](https://img.shields.io/github/tag/jdrew1303/dropwizard-rapid-seed.svg)](#font_log)
-  [![license](https://img.shields.io/badge/license-NA-lightgrey.svg)](#license)
+  [ ![Version Tag](https://img.shields.io/github/tag/jdrew1303/dropwizard-rapid-seed.svg) ](#font_log)
+  [ ![license](https://img.shields.io/badge/license-NA-lightgrey.svg) ](#license)
 </p>
 
 <p align="center">
-  [Guides](#guides) |
-  [Links](#links) |
-  [License](#license)
+  [ Guides ](#guides) |
+  [ Links ](#links) |
+  [ License ](#license)
 </p>
 
 ## Guides
